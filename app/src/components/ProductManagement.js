@@ -253,10 +253,11 @@ export default function ProductManagement() {
   return (
     <>
       <Container>
-        <div style={{padding: "20px"}}></div>
-
-        <div style={{background: "white", padding: "30px", borderRadius:"8px" }}>
         <h1>Product Management</h1>
+        {/* API_URL: {API_URL} */}
+        <Button variant="outline-dark" onClick={handleShowAdd}>
+          <FaPlus /> Add
+        </Button>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -268,14 +269,6 @@ export default function ProductManagement() {
           </thead>
           <tbody>{productRows}</tbody>
         </Table>
-                
-        <div className = "container px-2" style={{padding: "5px"}}>
-        <Button className="btn btn-dark btn-block" variant="outline-white" onClick={handleShowAdd}>
-          <FaPlus /> Add
-        </Button>
-        </div>
-
-        </div>
       </Container>
 
       <Modal
