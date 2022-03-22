@@ -1,2 +1,2 @@
-# VmsCompany
+# vmsCompany
  
