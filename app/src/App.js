@@ -76,15 +76,15 @@ function App() {
         </Container>
       </Navbar>
 
-      <Route
-          path="/react-quotation/quotation-management"
-          element={<QuotationManagement />}
-        />
-
       <Routes>
         <Route
           path="/react-quotation/product-management"
           element={<ProductManagement />}
+        />
+
+        <Route
+          path="/react-quotation/quotation-management"
+          element={<QuotationManagement />}
         />
 
         <Route path="/react-quotation/quotation" element={<Quotation />} />
