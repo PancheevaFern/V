@@ -11,8 +11,14 @@ import {
 import { useLocalStorage } from "react-use";
 import Quotation from "./components/Quotation";
 import ProductManagement from "./components/ProductManagement";
+
+import QuotationManagement from "./components/QuotationManagement";
+
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { Login } from "./components/Login";
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import './font/Virtuous-Slab-Font-1/Virtuous Slab Font/Virtuous-Slab.otf';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -44,11 +50,17 @@ function App() {
       });
   };
 
+  
+
   return (
-    <Router>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="#home">VMS Company</Navbar.Brand>
+    <div style={{ backgroundImage: `linear-gradient(to right, rgba(218, 99, 176, 1), rgba(191, 108, 222, 1), rgba(141, 150, 236, 1))` }}>
+      <Router>
+        <Navbar bg="dark" variant="dark">
+          <Container>
+          /*<div className="font-face-gm" style={{ textAlign: "center" }}>*/
+            <Navbar.Brand href="#home"><h4>VMS COMPANY</h4></Navbar.Brand>
+          /*</div>*/
+
           <Nav className="me-auto">
             <Nav.Link href="/react-quotation">Home</Nav.Link>
             <Nav.Link href="/react-quotation/quotation">Quotation</Nav.Link>
@@ -56,7 +68,11 @@ function App() {
             <Nav.Link href="/react-quotation/product-management">
               Product
             </Nav.Link>
+            <Nav.Link href="/react-quotation/quotation-management">
+              Management
+            </Nav.Link>
           </Nav>
+
         </Container>
       </Navbar>
 
@@ -64,6 +80,11 @@ function App() {
         <Route
           path="/react-quotation/product-management"
           element={<ProductManagement />}
+        />
+
+        <Route
+          path="/react-quotation/quotation-management"
+          element={<QuotationManagement />}
         />
 
         <Route path="/react-quotation/quotation" element={<Quotation />} />
@@ -81,8 +102,8 @@ function App() {
         />
       </Routes>
     </Router>
+    </div>
   );
 }
 
 export default App;
-

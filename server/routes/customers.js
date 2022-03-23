@@ -17,7 +17,7 @@ router.get("/", (req, res, next) => {
 });
 
 
-
+/*
 // Create new customer
 router.post("/", (req, res, next) => {
   console.debug(req.body);
@@ -39,11 +39,26 @@ router.post("/", (req, res, next) => {
     }
   });
 });
+*/
+
+// Create new Quotation
+router.post('/', (req,res) => {
+  console.debug(req.body);
+  const data = req.body;
+  Customer.insertMany(data).then(value => res.json(value)).catch(err => res.json(err));
+    /*
+  const item1 = new Customer({
+    code: data.code,
+    name: data.name,
+    ppu: data.ppu,
+    qty:data.qty,
+    date:data.date
+    */
+});
 
 
-router.delete("/", (req, res, next) => {
-  const id = req.body._id;
-  console.debug(id);
+router.delete("/:id", (req, res, next) => {
+  const id = req.params.id;
   Customer.findByIdAndDelete(id, (err, doc) => {
     if (err) {
       console.error("Hey look, Error!", err);
@@ -54,6 +69,7 @@ router.delete("/", (req, res, next) => {
   });
 });
 
+/*
 router.put("/", async (req, res, next) => {
   console.debug(req.body);
   const data = req.body;
@@ -67,6 +83,6 @@ router.put("/", async (req, res, next) => {
   await customer1.save();
   res.status(200).json(customer1);
 });
+*/
 
 module.exports = router;
-

@@ -11,6 +11,7 @@ import {
 import { useLocalStorage } from "react-use";
 import QuotationTable from "./QuotationTable";
 
+
 function Quotation() {
   const API_URL = process.env.REACT_APP_API_URL;
   const itemRef = useRef();
@@ -26,7 +27,7 @@ function Quotation() {
 
   const [products, setProducts] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(1);
 
   useEffect(() => {
     fetch(`${API_URL}/products`)
@@ -34,7 +35,7 @@ function Quotation() {
       .then((data) => {
         data = data.filter((e) => "code" in e);
 
-        console.log(data);
+        // console.log(data);
         const z = data.map((v) => (
           <option key={v._id} value={v._id}>
             {v.name}
@@ -44,6 +45,7 @@ function Quotation() {
         setProductOptions(z);
       });
   }, []);
+
 
   const deleteProduct = () => {
     let item = products.find((v) => itemRef.current.value === v._id);
@@ -80,6 +82,30 @@ function Quotation() {
     console.log("after", dataItems);
   };
 
+  const saveQuotationItems = (currentData) => {
+    console.log(currentData);
+    fetch(`${API_URL}/customers`, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(currentData), // body data type must match "Content-Type" header
+    }) .then((res) => res.json)
+    .then((data) => {
+      setDataItems([]);
+      setLocalDataItems(JSON.stringify([]));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }
+
   const updateDataItems = (dataItems) => {
     setDataItems([...dataItems]);
     setLocalDataItems(JSON.stringify(dataItems));
@@ -99,8 +125,9 @@ function Quotation() {
   };  
   return (
     <Container>
-      <Row>
-        <Col md={4} style={{ backgroundColor: "#e4e4e4" }}>
+    <div className = "container px-5" style={{padding: "30px"}}>
+    <Row>
+      <Col md={4} style={{background: "white", padding: "20px", borderRadius:"8px" }}>
           <Row>
             <Col>
               Item
@@ -113,6 +140,7 @@ function Quotation() {
             <Col>
               <Form.Label>Price Per Unit</Form.Label>
               <Form.Control
+                min={1}
                 type="number"
                 ref={priceRef}
                 value={price}
@@ -123,12 +151,12 @@ function Quotation() {
           <Row>
             <Col>
               <Form.Label>Quantity</Form.Label>
-              <Form.Control type="number" ref={qtyRef} defaultValue={1} />
+              <Form.Control type="number" ref={qtyRef} defaultValue={1} min={1}/>
             </Col>
           </Row>
           <hr />
           <div className="d-grid gap-2">
-            <Button variant="primary" onClick={addItem}>
+            <Button className="btn btn-dark" onClick={addItem}>
               Add
             </Button>
             <Button variant="danger" onClick={deleteProduct}>
@@ -142,10 +170,13 @@ function Quotation() {
             data={dataItems}
             clearDataItems={clearDataItems}
             updateDataItems={updateDataItems}
+            saveQuotationItems={saveQuotationItems}
           />
         </Col>
       </Row>
+      </div>
     </Container>
+    
   );
 }
 
